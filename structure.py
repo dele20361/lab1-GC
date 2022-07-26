@@ -168,17 +168,37 @@ class Renderer(object):
         #     y = int(y)
         #     self.glPoint(x,y)
 
-    def glFillPoli (self):
+
+    def glEvenOdd (self, x, y, poligono):
         '''
-            Recorrer cada uno de los pixeles. Si el color es diferente al del fondo y es True la variable temp rellenar.
-            Siempre va verificando el siguiente del que rellenó y si el color es diferente al del fondo cambiar a False
-            la variable temp.
+            Algoritmo tomado de https://en.wikipedia.org/wiki/Even–odd_rule
+            Even-odd rule
+        '''
+        num = len(poligono)
+        pos = num - 1
+        c = False
+        for i in range(num):
+            # Ver si el punto es una esquina
+            if (x == poligono[i][0]) and (y == poligono[i][1]):
+                return True
+            if ((poligono[i][1] > y) != (poligono[pos][1] > y)):
+                slope = (x-poligono[i][0])*(poligono[pos][1]-poligono[i][1])-(poligono[pos][0]-poligono[i][0])*(y-poligono[i][1])
+                # Ver si el punto es un borde
+                if slope == 0:
+                    return True
+                if (slope < 0) != (poligono[pos][1] < poligono[i][1]):
+                    c = not c
+            pos = i
+        return c
+
+    def glFillPoli (self, poligono, clr=None):
+        '''
+            Utilizando el algoritmo de Even-odd rellenar el polígono
         '''
         for y in range(self.height):
             for x in range(self.width):
-                print(self.pixels[x][y])
-
-                # if self.currColor != (self.pixels[x][y]):
+                if self.glEvenOdd(x, y, poligono):
+                    self.glPoint(x, y, clr)
             
 
     # Función para crear el bitmap/frame buffer

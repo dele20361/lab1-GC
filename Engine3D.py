@@ -31,14 +31,19 @@ poli4 = [V2(413, 177), V2(448, 159), V2(502, 88),
 
 poli5 = [V2(682, 175), V2(708, 120), V2(735, 148), V2(739, 170)]
 
-
+# Dibujo de polígonos
 drawPoli(poli, color(1,0,0))
 drawPoli(poli2, color(0,1,0))
 drawPoli(poli3, color(0,0,1))
 drawPoli(poli4, color(1,1,1))
 drawPoli(poli5, color(1,1,1))
-rend.glFillPoli()
 
+# Relleno de polígonos
+rend.glFillPoli(poli, color(1,0,0))
+rend.glFillPoli(poli2, color(0,1,0))
+rend.glFillPoli(poli3, color(0,0,1))
+rend.glFillPoli(poli4, color(1,1,1))
+rend.glFillPoli(poli5, color(0,0,0))
 
 rend.glFinish('output.bmp')
 
